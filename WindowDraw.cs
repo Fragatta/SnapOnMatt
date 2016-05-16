@@ -81,12 +81,22 @@ namespace SnapOnTop
 
 		private void panel1_MouseDown (object sender, MouseEventArgs e)
 		{
-			_point = new Point (e.X, e.Y);
+			if (e.Button == MouseButtons.Left)
+			{
+				_point = new Point (e.X, e.Y);
+			}
+
+			if (e.Button == MouseButtons.Right)
+			{
+				_point = null;
+				_rectangle = Rectangle.Empty;
+				panel1.Invalidate ();
+			}
 		}
 
 		private void panel1_MouseUp (object sender, MouseEventArgs e)
 		{
-			if (_rectangle == null || _rectangle == Rectangle.Empty)
+			if (e.Button != MouseButtons.Left || _point == null || _rectangle == Rectangle.Empty)
 			{
 				return;
 			}
@@ -100,12 +110,12 @@ namespace SnapOnTop
 
 		private void panel1_MouseMove (object sender, MouseEventArgs e)
 		{
-			if (e.Button == MouseButtons.Left)
+			if (e.Button == MouseButtons.Left && _point != null)
 			{
-				var x1 = Math.Min(_point.X, e.X);
-				var y1 = Math.Min(_point.Y, e.Y);
-				var width = Math.Abs(_point.X - e.X);
-				var height = Math.Abs(_point.Y - e.Y);
+				var x1 = Math.Min(_point.Value.X, e.X);
+				var y1 = Math.Min(_point.Value.Y, e.Y);
+				var width = Math.Abs(_point.Value.X - e.X);
+				var height = Math.Abs(_point.Value.Y - e.Y);
 				_rectangle = new Rectangle(x1, y1, width, height);
 				panel1.Invalidate();
 			}
@@ -131,7 +141,7 @@ namespace SnapOnTop
 			public Rectangle Rectangle { get; private set; }
 		}
 
-		private Point _point;
+		private Point? _point;
 		private Bitmap _window;
 		private Bitmap _darkWindow;
 		private Rectangle _rectangle;
