@@ -69,6 +69,7 @@
 			this.MaximizeBox = false;
 			this.MinimizeBox = false;
 			this.Name = "Form1";
+			this.ShowIcon = false;
 			this.TopMost = true;
 			this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.Form1_KeyDown);
 			this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.Form1_MouseDown);
